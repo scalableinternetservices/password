@@ -1,6 +1,6 @@
 # Team:
 - Anirudh Veeraragavan - aniveera1
-- Rahul Shethi - rahulssheth
+- Rahul Sheth - rahulssheth
 - Quentin Truong - quentintruong
 - Arpit Jasapara - ajasapara
 
