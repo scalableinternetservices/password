@@ -10,6 +10,24 @@
 # Description:
 - Social Ranking App. Social Media Platform with profile, individual ranking. Functionality includes ability to rank, search platform, update profile.
 
+# Running:
+- We have dockerized our application to make development easier.
+
+First
+`docker-compose build`
+
+Then
+`docker-compose run web rake db:create`
+
+Finally
+`docker-compose up`
+
+Visit
+`http://localhost:3000/`
+
+Kill
+`docker-compose down`
+
 # README
 
 This README would normally document whatever steps are necessary to get the
