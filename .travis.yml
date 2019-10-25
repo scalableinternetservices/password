@@ -1,7 +1,14 @@
-language: ruby
-rvm:
-  - 2.6.5
-  - jruby
+services:
+    - docker
 
-before_install:
-  - brew services start postgresql
+before_script:
+    - docker-compose build
+    - docker-compose run web rake db:create
+    - docker-compose run web rake db:migrate
+    - docker-compose up -d
+
+script:
+    - docker ps
+
+after_script:
+    - docker-compose down
