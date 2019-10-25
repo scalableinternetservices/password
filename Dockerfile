@@ -12,12 +12,12 @@ WORKDIR /password
 COPY Gemfile /password/Gemfile
 COPY Gemfile.lock /password/Gemfile.lock
 RUN bundle install
-RUN rake db:setup
 COPY . /password
 
 # Create an entrypoint to be started everytime. Needed because of a rails issue according to Docker
 COPY entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
+RUN rake db:setup
 ENTRYPOINT ["entrypoint.sh"]
 EXPOSE 3000
 
