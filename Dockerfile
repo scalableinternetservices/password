@@ -17,8 +17,6 @@ COPY . /password
 # Create an entrypoint to be started everytime. Needed because of a rails issue according to Docker
 COPY entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
-RUN brew services start postgresql
-RUN rake db:setup
 ENTRYPOINT ["entrypoint.sh"]
 EXPOSE 3000
 
