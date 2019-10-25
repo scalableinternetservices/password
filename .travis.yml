@@ -3,11 +3,11 @@ services:
 
 before_script:
 	- docker-compose build
-	- docker-compose run web db:setup
+	- docker-compose run web rake db:setup
 	- docker-compose up -d
 
 script:
-	- docker-compose run web bundle exec rake test
+	- docker ps
 
 after_script:
 	- docker-compose down
