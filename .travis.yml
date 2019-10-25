@@ -5,3 +5,4 @@ services:
 
 before_install:
   - docker-compose up -d
+  - docker-composes run web rake db:setup
