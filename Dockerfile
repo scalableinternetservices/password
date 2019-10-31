@@ -17,7 +17,6 @@ WORKDIR /password
 COPY Gemfile /password/Gemfile
 COPY Gemfile.lock /password/Gemfile.lock
 RUN bundle install
-RUN yarn --version
 COPY . /password
 
 # Create an entrypoint to be started everytime. Needed because of a rails issue according to Docker
