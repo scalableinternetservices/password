@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Socialrank</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <style>
+      html { background-color: beige; }
+      .card {
+        border-style: dotted;
+        border-width: 5px;
+        border-color: black;
+        margin-bottom: 10px;
+      }
+    </style>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <p class="navbar-text float-right">
+    <% if user_signed_in? %>
+      <ul>
+        <% @users.each do |user| %>
+          <div class="card">
+          <% if user.name != nil %>
+            <h3><a href="/user/<%= user.id %>"><%= user.name %></a></h3>
+          <% else %>
+            <h3><a href="/user/<%= user.id %>"><%= user.email %></a></h3>
+          <% end %>
+          <% if user.profile_img_url == nil %>
+            <% user.profile_img_url = "nosedive" %>
+          <% end %> 
+          <%= image_tag  "#{ user.profile_img_url }" %> 
+          </div>
+        <% end %>
+      </ul>
+      <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
+    <% else %>
+
+    <% end %>
+    </p>
+  </body>
+</html>
