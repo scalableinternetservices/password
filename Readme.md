@@ -19,6 +19,9 @@ First
 Then
 `docker-compose run web rake db:create`
 
+Then
+`docker-compose run web rake db:migrate`
+
 Finally
 `docker-compose up`
 
