@@ -1,5 +1,7 @@
 <html>
 	<head>
+		<%= csrf_meta_tags %>
+
 		<style>
 		html { background-color: beige; }
 		</style>
@@ -10,5 +12,32 @@
 			<%= image_tag  "#{ @user.profile_img_url }" %>
 		<% end %>
 		<h3> email: <%= @user.email %></h3>
+		<% if @comments.size != 0 %>
+			<h4> rating: <%= @aggregate_rating %></h4>
+			<table>
+				<tr>
+					<th>Text</th>
+					<th>Rating</th>
+					<th>Rated By</th>
+				</tr>
+				<% @comments.each do |comment| %>
+					<tr>
+				        <th><%= comment.text %></th>
+				        <th><%= comment.rating %></th>
+				        <th><%= User.find_by(id: comment.created_user).name %></th>
+				    </tr>
+		        <% end %>
+		    </table>
+		<% end %>
+	    <h2> Add A New Review </h2>
+	 	<form action="/comments/create" method="POST">
+	 		<%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+	 		<input type="hidden" value="<%= @user.id %>" name="id">
+	 		<h3>Comment: </h3><input type="textarea" name="text">
+	 		<h3>Rating: </h3> <input type="text" name="rating">
+	 		<br />
+	 		<br />
+	 		<input type="submit">
+	 	</form>
 	</body>
 </html>
