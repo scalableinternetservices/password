@@ -1,0 +1,14 @@
+<html>
+	<head>
+		<style>
+		html { background-color: beige; }
+		</style>
+	</head>
+	<body>
+		<h1><%= @user.name %></h1>
+		<% if @user.profile_img_url != nil %>
+			<%= image_tag  "#{ @user.profile_img_url }" %>
+		<% end %>
+		<h3> email: <%= @user.email %></h3>
+	</body>
+</html>
