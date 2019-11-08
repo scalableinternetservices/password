@@ -10,6 +10,10 @@ class ApplicationController < ActionController::Base
 	end
 	def user
 		@user = User.find_by(id: params[:id])
+		@comments = @user.comments
+		sum = 0.0
+		@comments.each { |a| sum += a.rating }
+		@aggregate_rating = (sum / @comments.size).round(1)
 		render file: 'layouts/user.html.erb'
 	end
 end
