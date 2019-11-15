@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Socialrank</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <style>
+      html { background-color: beige; }
+      .card {
+        border-style: dotted;
+        border-width: 5px;
+        border-color: black;
+        margin-bottom: 10px;
+      }
+    </style>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <p class="navbar-text float-right">
+    <% if user_signed_in? %>
+      <ul>
+        <% @comments.each do |comment| %>
+          <div class="card">
+            <h1><%= User.find_by(id: comment.assigned_user).name %> just rated <%= User.find_by(id: comment.created_user).name %> with a <%= comment.rating %></h1>
+          </div>
+        <% end %>
+      </ul>
+      <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
+    <% else %>
+    <% end %>
+    </p>
+  </body>
+</html>
