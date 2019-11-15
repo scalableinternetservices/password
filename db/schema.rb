@@ -20,6 +20,8 @@ ActiveRecord::Schema.define(version: 2019_11_07_194714) do
     t.integer "rating", null: false
     t.integer "assigned_user", null: false
     t.integer "created_user", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "users", force: :cascade do |t|
