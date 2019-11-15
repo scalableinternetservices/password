@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE tsung SYSTEM "/usr/local/share/tsung/tsung-1.0.dtd" [] >
-<tsung loglevel="notice">
+<tsung loglevel="debug" dumptraffic="true">
 
   <!-- Client side setup -->
   <clients>
@@ -18,9 +18,9 @@
       <users arrivalrate="1" unit="second"></users>
     </arrivalphase>
 
-    <arrivalphase phase="2" duration="10" unit="second">
+    <!-- <arrivalphase phase="2" duration="10" unit="second">
       <users arrivalrate="2" unit="second"></users>
-    </arrivalphase>
+    </arrivalphase> -->
   </load>
 
   
@@ -41,7 +41,7 @@
         <http url='/' version='1.1' method='GET'></http>
       </request>
       
-      <thinktime value="2" random="true"></thinktime>
+      <thinktime value="1" random="true"></thinktime>
 
       <!-- Request sign up page, get authenticity_token -->
       <request subst="true">
@@ -49,7 +49,7 @@
         <http url="/users/sign_up" version="1.1" method="GET"></http>
       </request>
 
-      <thinktime value="2" random="true"></thinktime>
+      <thinktime value="1" random="true"></thinktime>
 
       <!-- Generate random username -->
       <setdynvars sourcetype="random_string" length="10">
@@ -72,16 +72,41 @@
           content_type="application/x-www-form-urlencoded"/>
       </request>
                 
-      <thinktime value="2"></thinktime>
+      <thinktime value="1"></thinktime>
 
+      <setdynvars sourcetype="eval" code="fun( {Pid, DynVars} ) ->
+        io:format([126, $p, 126, $n, 126, $n], [DynVars]),
+        ok end.">
+        <var name="dump" />
+      </setdynvars>
 
-<setdynvars sourcetype="eval" code="fun( {Pid, DynVars} ) ->
-  io:format([126, $p, 126, $n, 126, $n], [DynVars]),
-  ok end.">
-  <var name="dump" />
-</setdynvars>
+      <request subst="true">
+        <dyn_variable name="authenticity_token" re='id="authenticity_token" value="(.*)"'></dyn_variable>
+        <http url="/user/1" version="1.1" method="GET"></http>
+      </request>
 
+      <setdynvars sourcetype="eval" code="fun({Pid,DynVars})->
+        {ok, Val} = ts_dynvars:lookup(authenticity_token, DynVars),
+        edoc_lib:escape_uri(binary_to_list(Val)) end.">
+        <var name="escaped_authenticity_token" />
+      </setdynvars>
+
+      <request subst="true">
+        <http 
+          url='/comments/create'
+          version='1.1'
+          method='POST'
+          contents='authenticity_token=%%_escaped_authenticity_token%%&amp;id=1&amp;text=aa&amp;rating=1'
+          content_type="application/x-www-form-urlencoded"/>
+      </request>
+
+      <setdynvars sourcetype="eval" code="fun( {Pid, DynVars} ) ->
+        io:format([126, $p, 126, $n, 126, $n], [DynVars]),
+        ok end.">
+        <var name="dump" />
+      </setdynvars>
 
     </session>
+
   </sessions>
 </tsung>
