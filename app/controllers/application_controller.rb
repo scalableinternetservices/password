@@ -31,6 +31,10 @@ class ApplicationController < ActionController::Base
 	def configure_permitted_parameters
 	   attributes = [:name, :surname,:username, :email, :avatar]
 	   devise_parameter_sanitizer.permit(:sign_up, keys: attributes)
-	   
+	end
+
+	def test
+		ActionCable.server.broadcast("web_notifications_channel", "<p>hello world</p>")
+		redirect_to "/comment/feed"
 	end
 end

@@ -5,4 +5,5 @@ Rails.application.routes.draw do
   post '/comments/create', to: 'comment#create'
   devise_for :users, components: {registrations: 'registrations'}
   get '/comment/feed', to: 'comment#feed'
+  get '/test', to: 'application#test'
 end
