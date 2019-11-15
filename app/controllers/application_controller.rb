@@ -24,8 +24,6 @@ class ApplicationController < ActionController::Base
 		render file: 'layouts/user.html.erb'
 	end
 	def sign_up
-		console.log("here")
-		console.log(params)
 		User.create(name: params[:name], email: params[:email], password: params[:password])
 	end
 
