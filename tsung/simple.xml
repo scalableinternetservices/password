@@ -15,12 +15,28 @@
 
   <load>
     <arrivalphase phase="1" duration="10" unit="second">
-      <users arrivalrate="1" unit="second"></users>
+      <users arrivalrate="4" unit="second"></users>
     </arrivalphase>
 
-    <!-- <arrivalphase phase="2" duration="10" unit="second">
-      <users arrivalrate="2" unit="second"></users>
-    </arrivalphase> -->
+    <arrivalphase phase="2" duration="10" unit="second">
+      <users arrivalrate="6" unit="second"></users>
+    </arrivalphase>
+
+    <arrivalphase phase="3" duration="10" unit="second">
+      <users arrivalrate="8" unit="second"></users>
+    </arrivalphase>
+
+    <arrivalphase phase="4" duration="10" unit="second">
+      <users arrivalrate="10" unit="second"></users>
+    </arrivalphase>
+
+    <arrivalphase phase="5" duration="10" unit="second">
+      <users arrivalrate="12" unit="second"></users>
+    </arrivalphase>
+
+    <arrivalphase phase="6" duration="10" unit="second">
+      <users arrivalrate="14" unit="second"></users>
+    </arrivalphase>
   </load>
 
   
@@ -68,7 +84,7 @@
           url='/users'
           version='1.1'
           method='POST'
-          contents='authenticity_token=%%_escaped_authenticity_token%%&amp;user%5Bemail%5D=%%_username%%%40hostname&amp;user%5Bpassword%5D=foobar&amp;user%5Bpassword_confirmation%5D=foobar&amp;commit=Sign+up'                                        
+          contents='authenticity_token=%%_escaped_authenticity_token%%&amp;user%5Bemail%5D=%%_username%%%40hostname&amp;user%5Bpassword%5D=foobar&amp;user%5Bpassword_confirmation%5D=foobar&amp;user%5Bname%5D=%%_username%%&amp;commit=Sign+up'                                        
           content_type="application/x-www-form-urlencoded"/>
       </request>
                 
@@ -91,12 +107,47 @@
         <var name="escaped_authenticity_token" />
       </setdynvars>
 
+      <setdynvars sourcetype="random_number" start="1" end="2">
+        <var name="profile" />
+      </setdynvars>
+
+      <setdynvars sourcetype="random_number" start="1" end="5">
+        <var name="rating" />
+      </setdynvars>
+
       <request subst="true">
         <http 
           url='/comments/create'
           version='1.1'
           method='POST'
-          contents='authenticity_token=%%_escaped_authenticity_token%%&amp;id=1&amp;text=aa&amp;rating=1'
+          contents='authenticity_token=%%_escaped_authenticity_token%%&amp;id=%%_profile%%&amp;text=somecomment&amp;rating=%%_rating%%'
+          content_type="application/x-www-form-urlencoded"/>
+      </request>
+
+      <request subst="true">
+        <http 
+          url='/comments/create'
+          version='1.1'
+          method='POST'
+          contents='authenticity_token=%%_escaped_authenticity_token%%&amp;id=%%_profile%%&amp;text=somecomment2&amp;rating=%%_rating%%'
+          content_type="application/x-www-form-urlencoded"/>
+      </request>
+
+      <request subst="true">
+        <http 
+          url='/comments/create'
+          version='1.1'
+          method='POST'
+          contents='authenticity_token=%%_escaped_authenticity_token%%&amp;id=%%_profile%%&amp;text=somecomment3&amp;rating=%%_rating%%'
+          content_type="application/x-www-form-urlencoded"/>
+      </request>
+
+      <request subst="true">
+        <http 
+          url='/comments/create'
+          version='1.1'
+          method='POST'
+          contents='authenticity_token=%%_escaped_authenticity_token%%&amp;id=%%_profile%%&amp;text=somecomment4&amp;rating=%%_rating%%'
           content_type="application/x-www-form-urlencoded"/>
       </request>
 
