@@ -50,6 +50,11 @@
         <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'text_input' %>
       </div>
 
+      <div class="field">
+        <%= f.label :name, class: 'label' %><br />
+        <%= f.text_field :name, autocomplete: 'name', :required => 'required', class: 'text_input' %>
+      </div>
+
       <div class="actions">
         <%= f.submit "Sign up", class: 'button-login' %>
       </div>
