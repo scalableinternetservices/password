@@ -1,49 +1,97 @@
 <html>
   <head>
     <style>
-      html { background-color: beige; }
-      h2 { font-size: 36px; }
-      .label { font-size: 20px; }
-      .text_input {
-        width: 80%;
-        padding: 12px 20px;
-        margin: 8px 0;
+    html { background-color: #4469B0; }
+    .text_input {
+      width: 80%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    h1 {
+      font-family: 'Montserrat';
+    }
+    .label {
+      font-size: 14px;
+      font-family: 'Montserrat';
+    }
+    .container {
+      text-align: center;
+    }
+    .content {
+      display: inline-block;
+      width: 50%;
+    }
+    .card {
         display: inline-block;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box;
-      }
-      .button-login {
-        background-color: #4CAF50; /* Green */
-        border: none;
-        color: white;
-        padding: 15px 32px;
-        margin-bottom: 20px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin-top: 16px;
-      }
+        width: 30%;
+        border-style: solid;
+        border-radius: 5px;
+        border-width: 1px;
+        border-color: #DCDCDC;
+        margin-bottom: 10px;
+        background-color: white;
+    }
+    .header {
+      margin-top: 0px;
+      background-color: #E9EBEE;
+    }
+    .button {
+      background-color: #4469B0; /* Green */
+      font-family: 'Montserrat';
+      border: none;
+      margin-top: 5%;
+      color: white;
+      padding: 15px 32px;
+      margin-bottom: 10px;
+      text-align: center;
+      text-decoration: none;
+      width: 60%;
+      display: inline-block;
+    }
+    .login {
+      font-size: 16px;
+    }
+    .password {
+      font-size: 10px;
+    }
+    .button {
+      background-color: #4469B0; /* Green */
+      font-family: 'Montserrat';
+      border: none;
+      margin-top: 5%;
+      color: white;
+      padding: 15px 32px;
+      margin-bottom: 10px;
+      text-align: center;
+      text-decoration: none;
+      width: 60%;
+      display: inline-block;
+    }
     </style>
   </head>
   <body>
+  <div class="container">
+    <div class="card">
+    <div class="header">
+      <img src="/assets/nosedive.png" height="200px" width="250px" />
+      <h1>Nosedive</h1>
+    </div>
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
 
-	<h2>Forgot your password?</h2>
-
-	<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-	  <%= render "devise/shared/error_messages", resource: resource %>
-
-	  <div class="field">
-	    <%= f.label :email, class: 'label' %><br />
-	    <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'text_input' %>
-	  </div>
-
-	  <div class="actions">
-	    <%= f.submit "Send me reset password instructions", class: 'button-login' %>
-	  </div>
-	<% end %>
-
-	<%= render "devise/shared/links" %>
+      <div class="field">
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: 'Email', class: 'text_input' %>
+    </div>
+    <div class="actions">
+      <%= f.submit "Send me reset password instructions", class: 'button password' %>
+      <%= link_to "Log in", new_session_path(resource_name), class: 'button login' %><br />
+    </div>
+    <% end %>
+    </div>
+    </div>
 	</body>
 </html>

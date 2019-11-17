@@ -5,12 +5,57 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <style>
-      html { background-color: beige; }
+      html { background-color: #E9EBEE; font-family: 'Montserrat';}
+      #navbar {
+  overflow: hidden;
+  background-color: #4469B0;
+  margin-left: -8px;
+  width: 100%;
+}
+
+#navbar a {
+  float: left;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+#navbar a:hover {
+  background-color: #black;
+  color: black;
+}
+
+#navbar a.active {
+  color: black;
+}
+
+.content {
+  padding: 16px;
+}
+
+.sticky {
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  top: 0;
+  width: 100%;
+}
+
+.sticky + .content {
+  padding-top: 60px;
+}
       .card {
-        border-style: dotted;
-        border-width: 5px;
-        border-color: black;
+        border-style: solid;
+        border-radius: 5px;
+        border-width: 1px;
+        border-color: #DCDCDC;
+        padding: 10px;
+        width: 50%;
         margin-bottom: 10px;
+        background-color: white;
       }
     </style>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
@@ -18,13 +63,22 @@
   </head>
 
   <body>
+  <div id="navbar" class="sticky">
+    <img src="/assets/nosedive.png" height="50px" width="50px" style="margin-left: 10px;" />
+    <div style="margin-right: 50px;">
+    <form method="GET" action="/">
+      <input type="text" name="filter">
+      <input type="submit" name="Submit">
+    </form>
+    <a class="active" href="/">Feed</a>
+    <a href="/comment/feed">Comments</a>
+    <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
+    </div>
+  </div>
+  <br />
+  <br />
     <p class="navbar-text float-right">
     <% if user_signed_in? %>
-
-      <form method="GET" action="/">
-        <input type="text" name="filter">
-        <input type="submit" name="Submit">
-      </form>
       <ul>
         <% @users.each do |user| %>
           <div class="card">
@@ -40,10 +94,16 @@
           </div>
         <% end %>
       </ul>
-      <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
     <% else %>
 
     <% end %>
     </p>
+    <script>
+// When the user clicks on div, open the popup
+function myFunction() {
+  var popup = document.getElementById("myPopup");
+  popup.classList.toggle("show");
+}
+</script>
   </body>
 </html>
