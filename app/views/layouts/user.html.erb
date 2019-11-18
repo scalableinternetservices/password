@@ -1,33 +1,56 @@
 <html>
 	<head>
 		<%= csrf_meta_tags %>
-
 		<style>
-		html { background-color: beige; }
+		html { background-color: #E9EBEE;
+			font-family: 'Montserrat';
+		 }
+		 .container {
+		 	text-align: center;
+		 }
+		.card { 
+			background-color: white; 
+			width: 50%;
+			padding: 10px;
+			border-radius: 5px;
+      		display: inline-block;
+		}
+		.comment-card {
+			background-color: #ECF0F1;
+			padding: 10px;
+			border-radius: 5px;
+			font-size: 10px;
+			font-family: 'Montserrat';
+		}
+		.flex {
+			display: flex;
+
+		}
 		</style>
 	</head>
 	<body>
+	<div class="container">
+		<div class="card">
 		<h1><%= @user.name %></h1>
 		<% if @user.profile_img_url != nil %>
 			<%= image_tag  "#{ @user.profile_img_url }" %>
 		<% end %>
 		<h3> email: <%= @user.email %></h3>
 		<% if @comments.size != 0 %>
-			<h4> rating: <%= @aggregate_rating %></h4>
-			<table>
-				<tr>
-					<th>Text</th>
-					<th>Rating</th>
-					<th>Rated By</th>
-				</tr>
-				<% @comments.each do |comment| %>
-					<tr>
-				        <th><%= comment.text %></th>
-				        <th><%= comment.rating %></th>
-				        <th><%= User.find_by(id: comment.created_user).name %></th>
-				    </tr>
-		        <% end %>
-		    </table>
+			<% @comments.each do |comment| %>
+				<div class="comment-card">
+					<div class="flex">
+					<% if User.find_by(id: comment.created_user).profile_img_url == nil %>
+						<img src="/assets/nosedive.png" width="50px" height="50px" />
+					<% else %>
+						<img src="/assets/<%= User.find_by(id: comment.created_user).profile_img_url %>" />
+					<% end %>
+					<h1><%= User.find_by(id: comment.created_user).name %> gave <%= comment.rating %></h1>
+					</div>
+					<h3 style="position: relative; left: 80px;"><%= comment.text %></h3>
+				</div>
+				<br />
+			<% end %>
 		<% end %>
 	    <h2> Add A New Review </h2>
 	 	<form action="/comments/create" method="POST">
