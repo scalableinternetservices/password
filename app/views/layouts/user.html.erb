@@ -47,20 +47,20 @@
 					<% end %>
 					<h1><%= User.find_by(id: comment.created_user).name %> gave <%= comment.rating %></h1>
 					</div>
-					<h3 style="position: relative; left: 80px;"><%= comment.text %></h3>
+					<p style="position: relative; left: 80px; font-size: 14px;"><%= comment.text %></p>
 				</div>
 				<br />
 			<% end %>
 		<% end %>
-	    <h2> Add A New Review </h2>
-	 	<form action="/comments/create" method="POST">
-	 		<%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-	 		<input type="hidden" value="<%= @user.id %>" name="id">
-	 		<h3>Comment: </h3><input type="textarea" name="text">
-	 		<h3>Rating: </h3> <input type="text" name="rating">
-	 		<br />
-	 		<br />
-	 		<input type="submit">
-	 	</form>
+		    <h2> Add A New Review </h2>
+		 	<form action="/comments/create" method="POST">
+		 		<%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+		 		<input type="hidden" value="<%= @user.id %>" name="id">
+		 		<h3>Comment: </h3><input type="textarea" name="text">
+		 		<h3>Rating: </h3> <input type="text" name="rating">
+		 		<br />
+		 		<br />
+		 		<input type="submit">
+		 	</form>
 	</body>
 </html>
