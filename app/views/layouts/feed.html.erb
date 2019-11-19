@@ -57,6 +57,10 @@
         margin-bottom: 10px;
         background-color: white;
       }
+  img {
+    width: 100px;
+    height: 100px;
+  }
     </style>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
@@ -72,9 +76,12 @@
       </form>
       <a class="active" href="/">Feed</a>
       <a href="/comment/feed">Comments</a>
+      <a href="/profile">Profile</a>
       <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
     </div>
   </div>
+  <br />
+  <br />
   <br />
   <br />
     <p class="navbar-text float-right">
@@ -87,10 +94,11 @@
           <% else %>
             <h3><a href="/user/<%= user.id %>"><%= user.email %></a></h3>
           <% end %>
-          <% if user.profile_img_url == nil %>
-            <% user.profile_img_url = "nosedive" %>
-          <% end %> 
-          <%= image_tag  "#{ user.profile_img_url }" %> 
+          <% if user.avatar.attached? %>
+            <%= image_tag user.avatar %>
+          <% else %>
+            <img src="/assets/nosedive.png" width="50px" height="50px" />
+          <% end %>
           </div>
         <% end %>
       </ul>
