@@ -11,8 +11,8 @@ consumer.subscriptions.create("WebNotificationsChannel", {
 
   received(data) {
     // Called when there's incoming data on the websocket for this channel
-    console.log("Hello World")
-    const element = document.querySelector("#messages")
-    element.insertAdjacentHTML("beforeend", data)
+    const element = document.querySelector("#comments")
+
+    element.insertAdjacentHTML("afterbegin", data)
   }
 });

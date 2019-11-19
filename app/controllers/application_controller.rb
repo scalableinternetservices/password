@@ -23,6 +23,14 @@ class ApplicationController < ActionController::Base
 		@aggregate_rating = (sum / @comments.size).round(1)
 		render file: 'layouts/user.html.erb'
 	end
+	def profile
+		@user = User.find_by(id: current_user.id)
+		@comments = @user.comments
+		sum = 0.0
+		@comments.each { |a| sum += a.rating }
+		@aggregate_rating = (sum / @comments.size).round(1)
+		render file: 'layouts/user.html.erb'
+	end
 	def sign_up
 		User.create(name: params[:name], email: params[:email], password: params[:password])
 	end

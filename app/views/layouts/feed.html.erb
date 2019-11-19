@@ -66,13 +66,13 @@
   <div id="navbar" class="sticky">
     <img src="/assets/nosedive.png" height="50px" width="50px" style="margin-left: 10px;" />
     <div style="margin-right: 50px;">
-    <form method="GET" action="/">
-      <input type="text" name="filter">
-      <input type="submit" name="Submit">
-    </form>
-    <a class="active" href="/">Feed</a>
-    <a href="/comment/feed">Comments</a>
-    <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
+      <form method="GET" action="/">
+        <input type="text" name="filter">
+        <input type="submit" name="Submit">
+      </form>
+      <a class="active" href="/">Feed</a>
+      <a href="/comment/feed">Comments</a>
+      <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
     </div>
   </div>
   <br />
