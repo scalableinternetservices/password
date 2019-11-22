@@ -6,4 +6,6 @@ Rails.application.routes.draw do
   devise_for :users, components: {registrations: 'registrations'}
   get '/comment/feed', to: 'comment#feed'
   get '/test', to: 'application#test'
+  post '/connection/new', to: 'application#new_connection'
+  get '/network', to: 'application#network'
 end

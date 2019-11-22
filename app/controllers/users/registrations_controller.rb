@@ -5,12 +5,15 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_account_update_params, only: [:update]
 
   # GET /resource/sign_up
-  # def new
-  # end
+  def new
+    u = User.create(name: params[:name], email: params[:email], password: params[:password])
+    ActionCable.server.broadcast("network_user_channel", "Hello World")
+  end
 
   # POST /resource
   def create
-    User.create(name: params[:name], email: params[:email], password: params[:password])
+    u = User.create(name: params[:name], email: params[:email], password: params[:password])
+    ActionCable.server.broadcast("network_user_channel", "Hello World")
   end
 
   # GET /resource/edit
