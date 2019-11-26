@@ -5,8 +5,8 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <style>
-      html { background-color: #E9EBEE; font-family: 'Montserrat';}
-      #navbar {
+      html { background-color: #E9EBEE; font-family: 'Montserrat'; }
+#navbar {
   overflow: hidden;
   background-color: #4469B0;
   margin-left: -8px;
@@ -54,6 +54,7 @@
         border-color: #DCDCDC;
         padding: 10px;
         width: 50%;
+        font-size: 18px;
         margin-bottom: 10px;
         background-color: white;
       }
@@ -63,47 +64,27 @@
   </head>
 
   <body>
-  <div id="navbar" class="sticky">
+    <div id="navbar" class="sticky">
     <img src="/assets/nosedive.png" height="50px" width="50px" style="margin-left: 10px;" />
     <div style="margin-right: 50px;">
-      <form method="GET" action="/">
-        <input type="text" name="filter">
-        <input type="submit" name="Submit">
-      </form>
-      <a class="active" href="/">Feed</a>
-      <a href="/comment/feed">Comments</a>
+      <a href="/">Feed</a>
+      <a class="active" href="/comment/feed">Comments</a>
       <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
     </div>
   </div>
-  <br />
-  <br />
-    <p class="navbar-text float-right">
-    <% if user_signed_in? %>
-      <ul>
-        <% @users.each do |user| %>
-          <div class="card">
-          <% if user.name != nil %>
-            <h3><a href="/user/<%= user.id %>"><%= user.name %></a></h3>
-          <% else %>
-            <h3><a href="/user/<%= user.id %>"><%= user.email %></a></h3>
-          <% end %>
-          <% if user.profile_img_url == nil %>
-            <% user.profile_img_url = "nosedive" %>
-          <% end %> 
-          <%= image_tag  "#{ user.profile_img_url }" %> 
-          </div>
-        <% end %>
-      </ul>
-    <% else %>
+    <br /><br />
+    <h1>Comment Feed</h1>
 
+    <div id="comments">
+    <% if user_signed_in? %>
+      <% @comments.each do |comment| %>
+        <div class="card">
+          <p><%= User.find_by(id: comment.assigned_user).name %> just rated <%= User.find_by(id: comment.created_user).name %> with a <%= comment.rating %></p>
+        </div>
+      <% end %>
+    <% else %>
     <% end %>
-    </p>
-    <script>
-// When the user clicks on div, open the popup
-function myFunction() {
-  var popup = document.getElementById("myPopup");
-  popup.classList.toggle("show");
-}
-</script>
+    </div>
+    <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
   </body>
 </html>

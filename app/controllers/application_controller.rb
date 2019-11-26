@@ -23,6 +23,14 @@ class ApplicationController < ActionController::Base
 		@aggregate_rating = (sum / @comments.size).round(1)
 		render file: 'layouts/user.html.erb'
 	end
+	def profile
+		@user = User.find_by(id: current_user.id)
+		@comments = @user.comments
+		sum = 0.0
+		@comments.each { |a| sum += a.rating }
+		@aggregate_rating = (sum / @comments.size).round(1)
+		render file: 'layouts/user.html.erb'
+	end
 	def sign_up
 		User.create(name: params[:name], email: params[:email], password: params[:password])
 	end
@@ -31,6 +39,10 @@ class ApplicationController < ActionController::Base
 	def configure_permitted_parameters
 	   attributes = [:name, :surname,:username, :email, :avatar]
 	   devise_parameter_sanitizer.permit(:sign_up, keys: attributes)
-	   
+	end
+
+	def test
+		ActionCable.server.broadcast("web_notifications_channel", "<p>hello world</p>")
+		redirect_to "/comment/feed"
 	end
 end
