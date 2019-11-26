@@ -5,7 +5,6 @@ class CreateComments < ActiveRecord::Migration[6.0]
     		t.integer :rating, 				null: false
     		t.integer :assigned_user,		null: false
     		t.integer :created_user,		null: false
-    		t.timestamps
     	end
 	end
 end
