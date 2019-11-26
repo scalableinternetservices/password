@@ -65,26 +65,24 @@
 
   <body>
     <div id="navbar" class="sticky">
-    <img src="/assets/nosedive.png" height="50px" width="50px" style="margin-left: 10px;" />
-    <div style="margin-right: 50px;">
-      <a href="/">Feed</a>
-      <a class="active" href="/comment/feed">Comments</a>
-      <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
+      <img src="/assets/nosedive.png" height="50px" width="50px" style="margin-left: 10px;" />
+      <div style="margin-right: 50px;">
+        <a href="/">Feed</a>
+        <a class="active" href="/comment/feed">Comments</a>
+        <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
+      </div>
     </div>
-  </div>
     <br /><br />
     <h1>Comment Feed</h1>
 
     <div id="comments">
-    <% if user_signed_in? %>
-      <% @comments.each do |comment| %>
-        <div class="card">
-          <p><%= User.find_by(id: comment.assigned_user).name %> just rated <%= User.find_by(id: comment.created_user).name %> with a <%= comment.rating %></p>
-        </div>
+      <% if user_signed_in? %>
+        <% @comments.each do |comment| %>
+          <div class="card">
+            <p><%= User.find_by(id: comment.assigned_user).name %> just rated <%= User.find_by(id: comment.created_user).name %> with a <%= comment.rating %></p>
+          </div>
+        <% end %>
       <% end %>
-    <% else %>
-    <% end %>
     </div>
-    <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
   </body>
 </html>

@@ -5,6 +5,4 @@ test:
   adapter: async
 
 production:
-  adapter: redis
-  url: <%= ENV['REDIS_CABLE_URL'] %>
-  channel_prefix: docker_rails_production
+  adapter: postgresql
