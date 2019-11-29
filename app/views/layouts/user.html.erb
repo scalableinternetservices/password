@@ -47,7 +47,7 @@
 					<% end %>
 					<h1><%= User.find_by(id: comment.created_user).name %> gave <%= comment.rating %></h1>
 					</div>
-					<h3 style="position: relative; left: 80px;"><%= comment.text %></h3>
+					<p style="position: relative; left: 80px; font-size: 14px;"><%= comment.text %></p>
 				</div>
 				<br />
 			<% end %>

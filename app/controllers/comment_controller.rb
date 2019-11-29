@@ -10,4 +10,9 @@ class CommentController < ActionController::Base
 		Comment.create(assigned_user: user_id, text: text, rating: rating, created_user: creator)
 		redirect_back fallback_location: '/'
 	end
+	
+	def feed
+		@comments = Comment.order(:created_at).reverse
+		render file: 'layouts/comment_feed.html.erb'
+	end
 end
