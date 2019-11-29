@@ -26,7 +26,13 @@ class ApplicationController < ActionController::Base
 	def sign_up
 		User.create(name: params[:name], email: params[:email], password: params[:password])
 	end
-
+	def test
+		ActionCable.server.broadcast("test_channel", "<p>hello world</p>")
+		render file: 'layouts/test.html.erb'
+	end
+	def test2
+		render file: 'layouts/test.html.erb'
+	end
 	protected
 	def configure_permitted_parameters
 	   attributes = [:name, :surname,:username, :email, :avatar]
