@@ -26,7 +26,6 @@ class ApplicationController < ActionController::Base
 	def sign_up
 		User.create(name: params[:name], email: params[:email], password: params[:password])
 	end
-
 	protected
 	def configure_permitted_parameters
 	   attributes = [:name, :surname,:username, :email, :avatar]
