@@ -1,6 +1,6 @@
 import consumer from "./consumer"
 
-consumer.subscriptions.create("TestChannel", {
+consumer.subscriptions.create("CommentChannel", {
   connected() {
     // Called when the subscription is ready for use on the server
   },
@@ -11,8 +11,8 @@ consumer.subscriptions.create("TestChannel", {
 
   received(data) {
     // Called when there's incoming data on the websocket for this channel
-    const element = document.querySelector("#messages")
+    const element = document.querySelector("#comments")
 
-    element.insertAdjacentHTML("afterend", data)
+    element.insertAdjacentHTML("afterbegin", data)
   }
 });

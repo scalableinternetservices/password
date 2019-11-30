@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Socialrank</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <style>
+      html { background-color: #E9EBEE; font-family: 'Montserrat'; }
+#navbar {
+  overflow: hidden;
+  background-color: #4469B0;
+  margin-left: -8px;
+  width: 100%;
+}
+#navbar a {
+  float: left;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+#navbar a:hover {
+  background-color: #black;
+  color: black;
+}
+#navbar a.active {
+  color: black;
+}
+.content {
+  padding: 16px;
+}
+.sticky {
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  top: 0;
+  width: 100%;
+}
+.sticky + .content {
+  padding-top: 60px;
+}
+      .card {
+        border-style: solid;
+        border-radius: 5px;
+        border-width: 1px;
+        border-color: #DCDCDC;
+        padding: 10px;
+        width: 50%;
+        font-size: 18px;
+        margin-bottom: 10px;
+        background-color: white;
+      }
+    </style>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <div id="navbar" class="sticky">
+    <img src="/assets/nosedive.png" height="50px" width="50px" style="margin-left: 10px;" />
+    <div style="margin-right: 50px;">
+      <a href="/">Feed</a>
+      <a class="active" href="/comment/feed">Comments</a>
+      <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
+    </div>
+  </div>
+    <br /><br />
+    <h1>Comment Feed</h1>
+
+    <div id="comments">
+    <% if user_signed_in? %>
+      <% @comments.each do |comment| %>
+        <div class="card">
+          <p><%= User.find_by(id: comment.assigned_user).name %> just rated <%= User.find_by(id: comment.created_user).name %> with a <%= comment.rating %></p>
+        </div>
+      <% end %>
+    <% else %>
+    <% end %>
+    </div>
+  </body>
+</html>
