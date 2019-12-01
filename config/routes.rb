@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   get '/', to: 'application#feed'
   get '/user/:id', to: 'application#user'
   post '/comments/create', to: 'comment#create'
+  get '/profile', to: 'application#profile'
+  post '/profile_picture', to: 'application#picture'
   get '/commentfeed', to: 'comment#feed'
   devise_for :users, components: {registrations: 'registrations'}
 end
