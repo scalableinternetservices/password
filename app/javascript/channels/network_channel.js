@@ -1,6 +1,6 @@
 import consumer from "./consumer"
 
-consumer.subscriptions.create("NetworkUserChannel", {
+consumer.subscriptions.create("NetworkChannel", {
   connected() {
     // Called when the subscription is ready for use on the server
   },
