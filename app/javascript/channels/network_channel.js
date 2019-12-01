@@ -13,6 +13,7 @@ consumer.subscriptions.create("NetworkChannel", {
     // Called when there's incoming data on the websocket for this channel
     // const script_str = document.body.querySelector("script").childNodes[0].wholeText
     // var script_list = script_str.split(";")
+    console.log("hello World")
     App.edges.add({from: data[0], to: data[1]})
   }
 });
