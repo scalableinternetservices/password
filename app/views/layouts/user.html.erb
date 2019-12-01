@@ -77,6 +77,13 @@
 		 		<br />
 		 		<input type="submit">
 		 	</form>
+		 	<h2> Add as Friend </h2>
+		 	<form action="/connection/new" method="POST">
+		 		<%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+		 		<input type="hidden" value="<%= @user.id %>" name="id_1">
+		 		<input type="hidden" value="<%= current_user.id %>" name="id_2">
+		 		<input type="submit">
+		 	</form>
 		<% end %>
 	</body>
 </html>
