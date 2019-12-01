@@ -5,6 +5,10 @@
 		html { background-color: #E9EBEE;
 			font-family: 'Montserrat';
 		 }
+		img {
+			width: 50px;
+			height: 50px;
+		}
 		 .container {
 		 	text-align: center;
 		 }
@@ -32,18 +36,20 @@
 	<div class="container">
 		<div class="card">
 		<h1><%= @user.name %></h1>
-		<% if @user.profile_img_url != nil %>
-			<%= image_tag  "#{ @user.profile_img_url }" %>
+		<% if @user.avatar.attached? %>
+			<%= image_tag @user.avatar %>
+		<% else %>
+			<img src="/assets/nosedive.png" width="50px" height="50px" />
 		<% end %>
 		<h3> email: <%= @user.email %></h3>
 		<% if @comments.size != 0 %>
 			<% @comments.each do |comment| %>
 				<div class="comment-card">
 					<div class="flex">
-					<% if User.find_by(id: comment.created_user).profile_img_url == nil %>
+					<% if User.find_by(id: comment.created_user).avatar.attached? %>
+ 						<%= image_tag User.find_by(id: comment.created_user).avatar %>		
+ 					<% else %>
 						<img src="/assets/nosedive.png" width="50px" height="50px" />
-					<% else %>
-						<img src="/assets/<%= User.find_by(id: comment.created_user).profile_img_url %>" />
 					<% end %>
 					<h1><%= User.find_by(id: comment.created_user).name %> gave <%= comment.rating %></h1>
 					</div>
@@ -52,15 +58,25 @@
 				<br />
 			<% end %>
 		<% end %>
-	    <h2> Add A New Review </h2>
-	 	<form action="/comments/create" method="POST">
-	 		<%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-	 		<input type="hidden" value="<%= @user.id %>" name="id">
-	 		<h3>Comment: </h3><input type="textarea" name="text">
-	 		<h3>Rating: </h3> <input type="text" name="rating">
-	 		<br />
-	 		<br />
-	 		<input type="submit">
-	 	</form>
+		<% if @profile %>
+			<h2> Change Profile Picture </h2>
+			<form action="/profile_picture" method="POST" enctype="multipart/form-data">
+		 		<%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+		 		<input type="hidden" value="<%= @user.id %>" name="id">
+				<input type="file" id="user_avatar" name="avatar" />				
+				<input type="submit">
+			</form>
+		<% else %>
+		    <h2> Add A New Review </h2>
+		 	<form action="/comments/create" method="POST">
+		 		<%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+		 		<input type="hidden" value="<%= @user.id %>" name="id">
+		 		<h3>Comment: </h3><input type="textarea" name="text">
+		 		<h3>Rating: </h3> <input type="text" name="rating">
+		 		<br />
+		 		<br />
+		 		<input type="submit">
+		 	</form>
+		<% end %>
 	</body>
 </html>

@@ -21,10 +21,24 @@ class ApplicationController < ActionController::Base
 		sum = 0.0
 		@comments.each { |a| sum += a.rating }
 		@aggregate_rating = (sum / @comments.size).round(1)
+		@profile = false
+		render file: 'layouts/user.html.erb'
+	end
+	def profile
+		@user = User.find_by(id: current_user.id)
+		@comments = @user.comments
+		sum = 0.0
+		@comments.each { |a| sum += a.rating }
+		@aggregate_rating = (sum / @comments.size).round(1)
+		@profile = true
 		render file: 'layouts/user.html.erb'
 	end
 	def sign_up
 		User.create(name: params[:name], email: params[:email], password: params[:password])
+	end
+	def picture
+		user = User.find_by(id: params[:id])
+		user.avatar.attach(params[:avatar])
 	end
 	protected
 	def configure_permitted_parameters
