@@ -39,6 +39,7 @@ class ApplicationController < ActionController::Base
 	def picture
 		user = User.find_by(id: params[:id])
 		user.avatar.attach(params[:avatar])
+		redirect_to "/profile"
 	end
 	protected
 	def configure_permitted_parameters
