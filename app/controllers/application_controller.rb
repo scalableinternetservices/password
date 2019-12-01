@@ -33,6 +33,26 @@ class ApplicationController < ActionController::Base
 		@profile = true
 		render file: 'layouts/user.html.erb'
 	end
+	def new_connection
+		user_1 = User.find_by(id: params[:id_1])
+		user_2 = User.find_by(id: params[:id_2])
+		user_1.friend_request(user_2)
+		user_2.accept_request(user_1)
+		list = [user_1.id, user_2.id]
+    	ActionCable.server.broadcast("network_channel", list)
+		# Recompute everything from user 1 and broadcast that set.
+	end
+	def network 
+		@users = User.all
+		@edges = []
+		@users.each do |u|
+			friends = u.friends
+			friends.each do |f|
+				@edges << [f.id, u.id]
+			end
+		end
+		render file: 'layouts/network.html.erb'
+	end
 	def sign_up
 		User.create(name: params[:name], email: params[:email], password: params[:password])
 	end
@@ -45,6 +65,5 @@ class ApplicationController < ActionController::Base
 	def configure_permitted_parameters
 	   attributes = [:name, :surname,:username, :email, :avatar]
 	   devise_parameter_sanitizer.permit(:sign_up, keys: attributes)
-	   
 	end
 end

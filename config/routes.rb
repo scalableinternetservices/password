@@ -6,5 +6,7 @@ Rails.application.routes.draw do
   get '/profile', to: 'application#profile'
   post '/profile_picture', to: 'application#picture'
   get '/commentfeed', to: 'comment#feed'
+  post '/connection/new', to: 'application#new_connection'
+  get '/network', to: 'application#network'
   devise_for :users, components: {registrations: 'registrations'}
 end
