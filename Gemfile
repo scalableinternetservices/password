@@ -20,6 +20,8 @@ gem 'jbuilder', '~> 2.7'
 
 gem 'aws-sdk-s3', require: false
 gem 'devise'
+
+gem 'has_friendship'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password

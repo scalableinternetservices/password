@@ -4,5 +4,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   has_many :comments, foreign_key: 'assigned_user'
+<<<<<<< HEAD
   has_one_attached :avatar
+=======
+  has_friendship
+>>>>>>> Init network graph config
 end
