@@ -9,33 +9,33 @@
 
   <!-- Server side setup -->
   <servers>
-    <server host="password-deploy.tnmgpgntik.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
+    <server host="password.tnmgpgntik.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
   </servers>
 
 
   <load>
     <arrivalphase phase="1" duration="10" unit="second">
-      <users arrivalrate="4" unit="second"></users>
+      <users arrivalrate="1" unit="second"></users>
     </arrivalphase>
 
     <arrivalphase phase="2" duration="10" unit="second">
-      <users arrivalrate="6" unit="second"></users>
+      <users arrivalrate="2" unit="second"></users>
     </arrivalphase>
 
     <arrivalphase phase="3" duration="10" unit="second">
-      <users arrivalrate="8" unit="second"></users>
+      <users arrivalrate="3" unit="second"></users>
     </arrivalphase>
 
     <arrivalphase phase="4" duration="10" unit="second">
-      <users arrivalrate="10" unit="second"></users>
+      <users arrivalrate="4" unit="second"></users>
     </arrivalphase>
 
     <arrivalphase phase="5" duration="10" unit="second">
-      <users arrivalrate="12" unit="second"></users>
+      <users arrivalrate="5" unit="second"></users>
     </arrivalphase>
 
     <arrivalphase phase="6" duration="10" unit="second">
-      <users arrivalrate="14" unit="second"></users>
+      <users arrivalrate="6" unit="second"></users>
     </arrivalphase>
   </load>
 
@@ -56,7 +56,6 @@
       <request>
         <http url='/' version='1.1' method='GET'></http>
       </request>
-      
       <thinktime value="1" random="true"></thinktime>
 
       <!-- Request sign up page, get authenticity_token -->
@@ -64,21 +63,17 @@
         <dyn_variable name="authenticity_token" re='name="authenticity_token" value="(.*)"'></dyn_variable>
         <http url="/users/sign_up" version="1.1" method="GET"></http>
       </request>
-
-      <thinktime value="1" random="true"></thinktime>
-
-      <!-- Generate random username -->
-      <setdynvars sourcetype="random_string" length="10">
-        <var name="username" />
-      </setdynvars>
-
       <setdynvars sourcetype="eval" code="fun({Pid,DynVars})->
         {ok, Val} = ts_dynvars:lookup(authenticity_token, DynVars),
         edoc_lib:escape_uri(binary_to_list(Val)) end.">
         <var name="escaped_authenticity_token" />
       </setdynvars>
+      <thinktime value="1" random="true"></thinktime>
 
       <!-- Create account -->
+      <setdynvars sourcetype="random_string" length="10">
+        <var name="username" />
+      </setdynvars>
       <request subst="true">
         <http 
           url='/users'
@@ -87,34 +82,24 @@
           contents='authenticity_token=%%_escaped_authenticity_token%%&amp;user%5Bemail%5D=%%_username%%%40hostname&amp;user%5Bpassword%5D=foobar&amp;user%5Bpassword_confirmation%5D=foobar&amp;user%5Bname%5D=%%_username%%&amp;commit=Sign+up'                                        
           content_type="application/x-www-form-urlencoded"/>
       </request>
-                
       <thinktime value="1"></thinktime>
 
-      <setdynvars sourcetype="eval" code="fun( {Pid, DynVars} ) ->
-        io:format([126, $p, 126, $n, 126, $n], [DynVars]),
-        ok end.">
-        <var name="dump" />
+      <!-- Comment -->
+      <setdynvars sourcetype="random_number" start="1" end="2">
+        <var name="profile" />
       </setdynvars>
-
+      <setdynvars sourcetype="random_number" start="1" end="5">
+        <var name="rating" />
+      </setdynvars>
       <request subst="true">
         <dyn_variable name="authenticity_token" re='id="authenticity_token" value="(.*)"'></dyn_variable>
         <http url="/user/1" version="1.1" method="GET"></http>
       </request>
-
       <setdynvars sourcetype="eval" code="fun({Pid,DynVars})->
         {ok, Val} = ts_dynvars:lookup(authenticity_token, DynVars),
         edoc_lib:escape_uri(binary_to_list(Val)) end.">
         <var name="escaped_authenticity_token" />
       </setdynvars>
-
-      <setdynvars sourcetype="random_number" start="1" end="2">
-        <var name="profile" />
-      </setdynvars>
-
-      <setdynvars sourcetype="random_number" start="1" end="5">
-        <var name="rating" />
-      </setdynvars>
-
       <request subst="true">
         <http 
           url='/comments/create'
@@ -124,33 +109,57 @@
           content_type="application/x-www-form-urlencoded"/>
       </request>
 
+      <!-- Search using filter -->
       <request subst="true">
         <http 
-          url='/comments/create'
+          url='/?filter=quentin&amp;Submit=Submit'
+          version='1.1'
+          method='GET'
+          content_type="text/html; charset=utf-8"/>
+      </request>
+
+      <!-- Check comment feed -->
+      <request subst="true">
+        <http 
+          url='/commentfeed'
+          version='1.1'
+          method='GET'
+          content_type="text/html; charset=utf-8"/>
+      </request>
+
+      <!-- Add friend -->
+      <request subst="true">
+        <dyn_variable name="user_id" re='type="hidden" value="(.*)" name="id"'></dyn_variable>
+        <http url="/profile" version="1.1" method="GET"></http>
+      </request>
+      <request subst="true">
+        <dyn_variable name="authenticity_token" re='id="authenticity_token" value="(.*)"'></dyn_variable>
+        <http url="/user/1" version="1.1" method="GET"></http>
+      </request>
+      <setdynvars sourcetype="eval" code="fun({Pid,DynVars})->
+        {ok, Val} = ts_dynvars:lookup(authenticity_token, DynVars),
+        edoc_lib:escape_uri(binary_to_list(Val)) end.">
+        <var name="escaped_authenticity_token" />
+      </setdynvars>
+      <request subst="true">
+        <http 
+          url='/connection/new'
           version='1.1'
           method='POST'
-          contents='authenticity_token=%%_escaped_authenticity_token%%&amp;id=%%_profile%%&amp;text=somecomment2&amp;rating=%%_rating%%'
+          contents='authenticity_token=%%_escaped_authenticity_token%%&amp;id_1=%%_user_id%%&amp;id_2=%%_profile%%'
           content_type="application/x-www-form-urlencoded"/>
       </request>
 
+      <!-- Check network graph -->
       <request subst="true">
         <http 
-          url='/comments/create'
+          url='/network'
           version='1.1'
-          method='POST'
-          contents='authenticity_token=%%_escaped_authenticity_token%%&amp;id=%%_profile%%&amp;text=somecomment3&amp;rating=%%_rating%%'
-          content_type="application/x-www-form-urlencoded"/>
+          method='GET'
+          content_type="text/html; charset=utf-8"/>
       </request>
 
-      <request subst="true">
-        <http 
-          url='/comments/create'
-          version='1.1'
-          method='POST'
-          contents='authenticity_token=%%_escaped_authenticity_token%%&amp;id=%%_profile%%&amp;text=somecomment4&amp;rating=%%_rating%%'
-          content_type="application/x-www-form-urlencoded"/>
-      </request>
-
+      <!-- Log variables -->
       <setdynvars sourcetype="eval" code="fun( {Pid, DynVars} ) ->
         io:format([126, $p, 126, $n, 126, $n], [DynVars]),
         ok end.">
