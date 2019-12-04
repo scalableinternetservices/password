@@ -68,7 +68,7 @@
 
   <body>
   <div id="navbar" class="sticky">
-    <img src="/assets/nosedive.png" height="50px" width="50px" style="margin-left: 10px;" />
+    <img src="https://test-password-bucket.s3-us-west-2.amazonaws.com/nosedive.png" height="50px" width="50px" style="margin-left: 10px;" />
     <div style="margin-right: 50px;">
     <form method="GET" action="/">
       <input type="text" name="filter">
@@ -94,7 +94,7 @@
           <% if user.avatar.attached? %>
             <%= image_tag user.avatar %>
           <% else %>
-            <img src="/assets/nosedive.png" width="50px" height="50px" />
+            <img src="https://test-password-bucket.s3-us-west-2.amazonaws.com/nosedive.png" width="50px" height="50px" />
           <% end %>
           </div>
         <% end %>

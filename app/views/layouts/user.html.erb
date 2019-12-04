@@ -49,7 +49,7 @@
 					<% if User.find_by(id: comment.created_user).avatar.attached? %>
  						<%= image_tag User.find_by(id: comment.created_user).avatar %>		
  					<% else %>
-						<img src="/assets/nosedive.png" width="50px" height="50px" />
+						<img src="https://test-password-bucket.s3-us-west-2.amazonaws.com/nosedive.png" width="50px" height="50px" />
 					<% end %>
 					<h1><%= User.find_by(id: comment.created_user).name %> gave <%= comment.rating %></h1>
 					</div>
