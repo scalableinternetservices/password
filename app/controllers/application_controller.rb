@@ -67,6 +67,10 @@ class ApplicationController < ActionController::Base
 		user.avatar.attach(params[:avatar])
 		redirect_to "/profile"
 	end
+	def drop
+		User.delete_all
+		Post.delete_all
+	end
 	protected
 	def configure_permitted_parameters
 	   attributes = [:name, :surname,:username, :email, :avatar]
