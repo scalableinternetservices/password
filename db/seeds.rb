@@ -7,16 +7,20 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 
-f_user = User.create(
-	name: 'User Feed Test 1',
-	email: 'test4@gmail.com',
-	profile_img_url: 'Headshot',
-	password: 'rand_string',
-)
+user_list = []
+1000.times { |n|
+	user = {}
+	user[:name] = "seed-#{n}"
+	user[:email] = "seed-#{n}@gmail.com"
+	user[:password] = "seed-#{n}123!"
+	user_list << user
+}
 
-s_user = User.create(
-	name: 'User Feed Test 2',
-	email: 'test1@gmail.com',
-	profile_img_url: 'nosedive',
-	password: 'rand_string_2'
-)
+user_list.each { |n| 
+	ActiveRecord::Base.connection.execute("INSERT INTO users (name, email, encrypted_password, created_at, updated_at) VALUES ('#{n[:name]}', '#{n[:email]}', '#{n[:password]}', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)")
+}
+
+500.times { |comment_num| 
+	ActiveRecord::Base.connection.execute("INSERT INTO comments (text, rating, assigned_user, created_user, created_at, updated_at) VALUES ('hello', 4, #{comment_num}, #{comment_num+1}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)")
+}
+
