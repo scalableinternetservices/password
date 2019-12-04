@@ -9,7 +9,7 @@
 
   <!-- Server side setup -->
   <servers>
-    <server host="password.tnmgpgntik.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
+    <server host="password-test.tnmgpgntik.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
   </servers>
 
 
@@ -23,19 +23,35 @@
     </arrivalphase>
 
     <arrivalphase phase="3" duration="10" unit="second">
-      <users arrivalrate="3" unit="second"></users>
-    </arrivalphase>
-
-    <arrivalphase phase="4" duration="10" unit="second">
       <users arrivalrate="4" unit="second"></users>
     </arrivalphase>
 
+    <arrivalphase phase="4" duration="10" unit="second">
+      <users arrivalrate="7" unit="second"></users>
+    </arrivalphase>
+
     <arrivalphase phase="5" duration="10" unit="second">
-      <users arrivalrate="5" unit="second"></users>
+      <users arrivalrate="11" unit="second"></users>
     </arrivalphase>
 
     <arrivalphase phase="6" duration="10" unit="second">
-      <users arrivalrate="6" unit="second"></users>
+      <users arrivalrate="16" unit="second"></users>
+    </arrivalphase>
+
+    <arrivalphase phase="7" duration="10" unit="second">
+      <users arrivalrate="22" unit="second"></users>
+    </arrivalphase>
+
+    <arrivalphase phase="8" duration="10" unit="second">
+      <users arrivalrate="29" unit="second"></users>
+    </arrivalphase>
+
+    <arrivalphase phase="9" duration="10" unit="second">
+      <users arrivalrate="37" unit="second"></users>
+    </arrivalphase>
+
+    <arrivalphase phase="10" duration="10" unit="second">
+      <users arrivalrate="46" unit="second"></users>
     </arrivalphase>
   </load>
 
