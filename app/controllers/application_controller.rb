@@ -36,10 +36,12 @@ class ApplicationController < ActionController::Base
 	def new_connection
 		user_1 = User.find_by(id: params[:id_1])
 		user_2 = User.find_by(id: params[:id_2])
-		user_1.friend_request(user_2)
-		user_2.accept_request(user_1)
-		list = [user_1.id, user_2.id]
-    	ActionCable.server.broadcast("network_channel", list)
+		if !(user_1.friends.include? user_2)
+			user_1.friend_request(user_2)
+			user_2.accept_request(user_1)
+			list = [user_1.id, user_2.id]
+	    	ActionCable.server.broadcast("network_channel", list)
+	    end
 		# Recompute everything from user 1 and broadcast that set.
 	end
 	def network 
