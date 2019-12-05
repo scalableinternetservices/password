@@ -22,6 +22,8 @@ gem 'aws-sdk-s3', require: false
 gem 'devise'
 
 gem 'has_friendship'
+
+gem 'dalli-elasticache'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password
