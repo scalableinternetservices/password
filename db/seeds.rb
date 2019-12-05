@@ -19,8 +19,8 @@ user_list = []
 user_list.each { |n| 
 	ActiveRecord::Base.connection.execute("INSERT INTO users (name, email, encrypted_password, created_at, updated_at) VALUES ('#{n[:name]}', '#{n[:email]}', '#{n[:password]}', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)")
 }
-
-500.times { |comment_num| 
-	ActiveRecord::Base.connection.execute("INSERT INTO comments (text, rating, assigned_user, created_user, created_at, updated_at) VALUES ('hello', 4, #{comment_num}, #{comment_num+1}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)")
+150.times { |comment| 
+	500.times { |comment_num| 
+		ActiveRecord::Base.connection.execute("INSERT INTO comments (text, rating, assigned_user, created_user, created_at, updated_at) VALUES ('hello', 4, #{comment_num}, #{comment_num+1}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)")
+	}
 }
-
