@@ -85,18 +85,20 @@
     <% if user_signed_in? %>
       <ul>
         <% @users.each do |user| %>
-          <div class="card">
-          <% if user.name != nil %>
-            <h3><a href="/user/<%= user.id %>"><%= user.name %></a></h3>
-          <% else %>
-            <h3><a href="/user/<%= user.id %>"><%= user.email %></a></h3>
+          <% cache(user) do %>
+            <div class="card">
+            <% if user.name != nil %>
+              <h3><a href="/user/<%= user.id %>"><%= user.name %></a></h3>
+            <% else %>
+              <h3><a href="/user/<%= user.id %>"><%= user.email %></a></h3>
+            <% end %>
+            <% if user.avatar.attached? %>
+              <%= image_tag user.avatar %>
+            <% else %>
+              <img src="https://test-password-bucket.s3-us-west-2.amazonaws.com/nosedive.png" width="50px" height="50px" />
+            <% end %>
+            </div>
           <% end %>
-          <% if user.avatar.attached? %>
-            <%= image_tag user.avatar %>
-          <% else %>
-            <img src="https://test-password-bucket.s3-us-west-2.amazonaws.com/nosedive.png" width="50px" height="50px" />
-          <% end %>
-          </div>
         <% end %>
       </ul>
     <% else %>

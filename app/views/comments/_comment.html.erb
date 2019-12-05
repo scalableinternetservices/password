@@ -1,0 +1,3 @@
+<div class="card">
+    <p><%= User.find_by(id: comment.assigned_user).name %> just rated <%= User.find_by(id: comment.created_user).name %> with a <%= comment.rating %></p>
+</div>

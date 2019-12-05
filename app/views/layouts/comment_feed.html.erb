@@ -72,9 +72,11 @@
     <div id="comments">
     <% if user_signed_in? %>
       <% @comments.each do |comment| %>
-        <div class="card">
-          <p><%= User.find_by(id: comment.assigned_user).name %> just rated <%= User.find_by(id: comment.created_user).name %> with a <%= comment.rating %></p>
-        </div>
+        <% cache(comment) do %>
+          <div class="card">
+            <p><%= (User.find_by(id: comment.assigned_user) == nil ? "User" : User.find_by(id: comment.assigned_user).name) %> just rated <%= (User.find_by(id: comment.created_user) == nil ? "User" : User.find_by(id: comment.created_user).name) %> with a <%= comment.rating %></p>
+          </div>
+        <% end %>
       <% end %>
     <% else %>
     <% end %>

@@ -17,19 +17,25 @@ class ApplicationController < ActionController::Base
 	end
 	def user
 		@user = User.find_by(id: params[:id])
+		@aggregate_rating = @user.aggregate_rating
 		@comments = @user.comments
-		sum = 0.0
-		@comments.each { |a| sum += a.rating }
-		@aggregate_rating = (sum / @comments.size).round(1)
+		if @aggregate_rating == 0 and @comments.length > 0
+			@aggregate_rating = self.compute_rating({comments: @comments})
+			@user.aggregate_rating = @aggregate_rating
+			@user.save!
+		end
 		@profile = false
 		render file: 'layouts/user.html.erb'
 	end
 	def profile
-		@user = User.find_by(id: current_user.id)
+		@user = User.find_by(id: params[:id])
+		@aggregate_rating = @user.aggregate_rating
 		@comments = @user.comments
-		sum = 0.0
-		@comments.each { |a| sum += a.rating }
-		@aggregate_rating = (sum / @comments.size).round(1)
+		if @aggregate_rating == 0 and @comments.length > 0
+			@aggregate_rating = self.compute_rating({comments: @comments})
+			@user.aggregate_rating = @aggregate_rating
+			@user.save!
+		end
 		@profile = true
 		render file: 'layouts/user.html.erb'
 	end
@@ -39,19 +45,26 @@ class ApplicationController < ActionController::Base
 		if !(user_1.friends.include? user_2)
 			user_1.friend_request(user_2)
 			user_2.accept_request(user_1)
+
 			list = [user_1.id, user_2.id]
+			if Network.all.length == 0
+				network = Network.create(tmp: 1)
+				network.edges << list
+				network.save!
+			else
+				network = Network.first 
+				network.edges << list
+				network.save!
+			end
 	    	ActionCable.server.broadcast("network_channel", list)
 	    end
-		# Recompute everything from user 1 and broadcast that set.
 	end
 	def network 
 		@users = User.all
-		@edges = []
-		@users.each do |u|
-			friends = u.friends
-			friends.each do |f|
-				@edges << [f.id, u.id]
-			end
+		if Network.all.length == 0
+			@edges = []
+		else
+			@edges = Network.first.edges
 		end
 		render file: 'layouts/network.html.erb'
 	end
@@ -67,5 +80,13 @@ class ApplicationController < ActionController::Base
 	def configure_permitted_parameters
 	   attributes = [:name, :surname,:username, :email, :avatar]
 	   devise_parameter_sanitizer.permit(:sign_up, keys: attributes)
+	end
+
+	def compute_rating(params)
+		comments = params[:comments]
+		sum = 0.0
+		comments.each { |a| sum += a.rating }
+		aggregate_rating = (sum / @comments.size).round(1)
+		aggregate_rating
 	end
 end

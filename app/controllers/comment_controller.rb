@@ -8,6 +8,9 @@ class CommentController < ActionController::Base
 		rating = params[:rating].to_i
 		creator = current_user.id
 		Comment.create(assigned_user: user_id, text: text, rating: rating, created_user: creator)
+		assigned_user = User.find_by(user_id)
+		assigned_user.aggregate_rating = ((assigned_user.aggregate_rating * assigned_user.comments.length) + rating) / (assigned_user.comments.length + 1)
+		assigned_user.save! 
 		comment_str = "<div class='card'><p>"
 		comment_str += User.find_by(id: user_id).name
 		comment_str += " has just rated "
