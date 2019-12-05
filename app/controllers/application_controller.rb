@@ -6,12 +6,18 @@ class ApplicationController < ActionController::Base
 		render file: 'layouts/application.html.erb'
 	end
 	def feed
-		@users = User.all
+		@start_index = 0
+		if params.has_key?(:page)
+			@start_index = params[:page].to_i
+		end
 		if params.has_key?(:filter)
 			filter_str = "%"
 			filter_str += params[:filter]
 			filter_str += '%'
-			@users = User.where("name like ?", filter_str)
+			@prev_filter_str = filter_str
+			@users = User.where("name like ?", filter_str).offset(@start_index*5).limit(5)
+		else
+			@users = User.all.offset(@start_index*5).limit(5)
 		end
 		render file: 'layouts/feed.html.erb'
 	end
@@ -75,6 +81,10 @@ class ApplicationController < ActionController::Base
 		user = User.find_by(id: params[:id])
 		user.avatar.attach(params[:avatar])
 		redirect_to "/profile"
+	end
+	def drop
+		User.delete_all
+		Post.delete_all
 	end
 	protected
 	def configure_permitted_parameters

@@ -72,6 +72,7 @@
     <div style="margin-right: 50px;">
     <form method="GET" action="/">
       <input type="text" name="filter">
+      <input type="hidden" name="page" value="0">
       <input type="submit" name="Submit">
     </form>
     <a class="active" href="/">Feed</a>
@@ -101,6 +102,22 @@
           <% end %>
         <% end %>
       </ul>
+      <% if @start_index > 0 %>
+        <form action="/" method="GET">
+          <% if @prev_filter_str != "" %>
+            <input type="hidden" name="filter" value="<%= @prev_filter_str %>">
+          <% end %>
+          <input type="hidden" name="page" value="<%= @start_index - 1 %>">
+          <input type="submit" name="Previous" value="Previous">
+        </form>
+      <% end %>
+      <form action="/" method="GET">
+        <% if @prev_filter_str != "" %>
+          <input type="hidden" name="filter" value="<%= @prev_filter_str %>">
+        <% end %>
+        <input type="hidden" name="page" value="<%= @start_index + 1 %>">
+        <input type="submit" name="Next" value="Next">
+      </form>
     <% else %>
 
     <% end %>

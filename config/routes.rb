@@ -8,5 +8,6 @@ Rails.application.routes.draw do
   get '/commentfeed', to: 'comment#feed'
   post '/connection/new', to: 'application#new_connection'
   get '/network', to: 'application#network'
+  get '/drop', to: 'application#drop'
   devise_for :users, components: {registrations: 'registrations'}
 end
