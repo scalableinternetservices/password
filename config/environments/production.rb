@@ -115,6 +115,5 @@ Rails.application.configure do
 
   endpoint = "password-cache.5sqcdv.cfg.usw2.cache.amazonaws.com:11211"
   elasticache = Dalli::ElastiCache.new(endpoint)
-  config.cache_store = :dalli_store, elasticache.servers, {:expires_in => 1.day, :compr
-ess => true}
+  config.cache_store = :dalli_store, elasticache.servers, {:expires_in => 1.day, :compress => true}
 end
