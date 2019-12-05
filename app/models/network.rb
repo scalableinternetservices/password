@@ -1,3 +1,3 @@
 class Network < ApplicationRecord
-	serializes :edges, Array
+	serialize :edges, Array
 end
